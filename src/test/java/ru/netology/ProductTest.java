@@ -152,4 +152,54 @@ public class ProductTest {
 
         Assertions.assertArrayEquals(expected, actual);
     }
+
+    @Test
+    public void removeById() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        Book book1 = new Book(1, "HarryPotter", 100, "Joanne Rowling");
+        Book book2 = new Book(2, "HarryPotter2", 200, "Joanne Rowling");
+        Book book3 = new Book(3, "The Lord of the Rings1", 300, "John Ronald Reuel Tolkien");
+        Book book4 = new Book(4, "The Lord of the Rings2", 150, "John Ronald Reuel Tolkien");
+        Smartphone phone1 = new Smartphone(5, "iphone 14", "Apple", 1000);
+        Smartphone phone2 = new Smartphone(6, "Galaxy s20 FE", "Samsung", 1500);
+
+        manager.add(book1);
+        manager.add(book2);
+        manager.add(book3);
+        manager.add(book4);
+        manager.add(phone1);
+        manager.add(phone2);
+
+        manager.removeById(6);
+
+        Product[] expected = {book1, book2, book3, book4, phone1};
+        Product[] actual = repo.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void removeByIdNonExistent() {
+        ProductRepository repo = new ProductRepository();
+        ProductManager manager = new ProductManager(repo);
+        Book book1 = new Book(1, "HarryPotter", 100, "Joanne Rowling");
+        Book book2 = new Book(2, "HarryPotter2", 200, "Joanne Rowling");
+        Book book3 = new Book(3, "The Lord of the Rings1", 300, "John Ronald Reuel Tolkien");
+        Book book4 = new Book(4, "The Lord of the Rings2", 150, "John Ronald Reuel Tolkien");
+        Smartphone phone1 = new Smartphone(5, "iphone 14", "Apple", 1000);
+        Smartphone phone2 = new Smartphone(6, "Galaxy s20 FE", "Samsung", 1500);
+
+        manager.add(book1);
+        manager.add(book2);
+        manager.add(book3);
+        manager.add(book4);
+        manager.add(phone1);
+        manager.add(phone2);
+        
+        Assertions.assertThrows(NotFoundException.class,
+                () -> manager.removeById(100));
+
+    }
+
 }
